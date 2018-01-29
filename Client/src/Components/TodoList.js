@@ -3,25 +3,23 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 export class TodoList extends Component {
+
+
     renderContent() {
-        var renderedRow = [];
         if (this.props.todo.data !== undefined) {
-            for (var i = 0; i < this.props.todo.data.length; i++) {
-                renderedRow.push(
-                    <tr>
-                        <td class="cursor-pointer">{this.props.todo.data[i].desc}</td>
-                        <td class="cursor-pointer">{this.props.todo.data[i].priority}</td>
-                        <td class="cursor-pointer">{this.props.todo.data[i].lastUpdated}</td>
-                        <td><button class="button is-outlined is-danger" onClick={this.removeTodo(this.props.todo.data[i]._id)}>REMOVE TODO</button></td>
-                    </tr>
-                )
-            }
-            return renderedRow;
+            const list = this.props.todo.data.map(todo => (
+                <tr>
+                    <td class="cursor-pointer">{todo.desc}</td>
+                    <td class="cursor-pointer">{todo.priority}</td>
+                    <td class="cursor-pointer">{todo.lastUpdated}</td>
+                    <td><button class="button is-outlined is-danger" onClick={() => this.removeTodo(todo._id)}>REMOVE TODO</button></td>
+                </tr>
+            ));
+            return list;
         }
     }
 
     removeTodo(id) {
-        console.log(id);
         this.props.removeTodo(id);
     }
 

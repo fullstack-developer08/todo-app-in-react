@@ -1,6 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 export class Dashboard extends Component {
+
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+
+        }
+    }
+
+    handleChange(e) {
+        this.setState({ [e.target.name] : e.target.value })
+    }
+
+    handleSubmit(event) {
+        this.props.addTodo(this.state);
+        event.preventDefault();
+    }
+
     render() {
         return (
             <article class="message is-success ">
@@ -8,7 +29,7 @@ export class Dashboard extends Component {
                     <p>Todo Dashboard</p>
                 </div>
                 <div class="message-body">
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
                                 <label class="label">Description</label>
@@ -17,7 +38,7 @@ export class Dashboard extends Component {
                                 <div class="field">
                                     <p class="control">
                                         <input class="input is-success" type="text" name="desc"
-                                            required />
+                                            required onChange={this.handleChange} />
                                     </p>
                                     <div>
                                         <div>Field required</div>
@@ -33,7 +54,7 @@ export class Dashboard extends Component {
                                 <div class="field">
                                     <div class="control">
                                         <div class="select is-success">
-                                            <select name="priority" required>
+                                            <select name="priority" required onChange={this.handleChange}>
                                                 <option value="">--select priority--</option>
                                                 <option value="Low">Low</option>
                                                 <option value="Medium">Medium</option>
@@ -65,3 +86,5 @@ export class Dashboard extends Component {
         );
     }
 }
+
+export default connect(null, actions)(Dashboard);
